@@ -14,5 +14,16 @@ namespace DataAccess
         {
             _context = context;
         }
+
+        public IEnumerable<Customer> GetAll()
+        {
+            return _context.Users.OfType<Customer>().ToList();
+        }
+
+        public void AddNewCustomer(Customer newCustomer)
+        {
+            _context.Users.Add(newCustomer);
+            _context.SaveChanges();
+        }
     }
 }
