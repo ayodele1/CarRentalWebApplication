@@ -39,6 +39,10 @@ namespace DomainObjects
 
         }
 
+        /// <summary>
+        /// Generate the Date Modified and Date Created values
+        /// </summary>
+        /// <returns></returns>
         public override int SaveChanges()
         {
             foreach (var history in this.ChangeTracker.Entries()

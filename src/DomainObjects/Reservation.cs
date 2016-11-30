@@ -19,6 +19,8 @@ namespace DomainObjects
 
         public double TotalCost { get; set; }
 
+        public string StoreLocation { get; set; }
+
         //Foreign Key
         public Vehicle Vehicle { get; set; }
 

@@ -75,6 +75,8 @@ namespace DomainObjects.Migrations
 
                     b.Property<DateTime>("ReturnTime");
 
+                    b.Property<string>("StoreLocation");
+
                     b.Property<double>("TotalCost");
 
                     b.Property<string>("VehicleId");

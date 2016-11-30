@@ -8,16 +8,21 @@
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/lib/bootswatch/paper/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/datepicker.css" />
+        <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/all.css" />
+        <link rel="stylesheet" href="~/css/Custom.css" />
     </environment>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -30,9 +35,34 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    @*<li><a asp-area="" asp-controller="Home" asp-action="Index">RENT A CAR</a></li>*@
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">RENT A CAR</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">MAKE A RESERVATION</a></li>
+                            <li><a href="#">VIEW / UPDATE RESERVATION</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">CAR INVENTORY</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">CARS</a></li>
+                            <li><a href="#">SUVS</a></li>
+                            <li><a href="#">TRUCKS</a></li>
+                            <li><a href="#">LUXURY/EXOTIC CARS</a></li>
+                            @*<li class="divider"></li>*@
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ALL OUR LOCATIONS</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">US LOCATIONS</a></li>
+                        </ul>
+                    </li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">ABOUT US</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">SIGN IN / SIGN UP</a></li>
                 </ul>
             </div>
         </div>
@@ -60,6 +90,12 @@
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+        <script src="~/js/Custom.js"></script>
+        <script src="~/js/GoogleService.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChWlnXt3ZDM74QSanoxvJoqolkw1R0RXw&libraries=places&callback=initAutocomplete"
+               async defer ></script>
+        
     </environment>
 
     @RenderSection("scripts", required: false)

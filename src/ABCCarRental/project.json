@@ -22,6 +22,7 @@
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
     "Microsoft.EntityFrameworkCore": "1.1.0",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
+    
     "DomainObjects": "1.0.0-*",
     "DataAccess": "1.0.0-*"
   },
