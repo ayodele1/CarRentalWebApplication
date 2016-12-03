@@ -7,8 +7,8 @@ namespace DomainObjects.ViewModels
 {
     public class ReservationViewModel
     {
-        public LocationSetupViewModel InitialSetup { get; set; }
+        public ReservationLocationViewModel InitialSetup { get; set; }
 
-        public VehicleSetupViewModel VehicleSetup { get; set; }
+        public ReservationVehicleViewModel VehicleSetup { get; set; }
     }
 }

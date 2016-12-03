@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DomainObjects.ViewModels
 {
     [ModelMetadataType(typeof(LoginSetupValidation))]
-    public class LocationSetupViewModel
+    public class ReservationLocationViewModel
     {
         public string StoreLocation { get; set; }
 

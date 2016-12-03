@@ -15,10 +15,12 @@ namespace ABCCarRental.Controllers
     public class HomeController : Controller
     {
         private ReservationRepository _reservationRepository;
+        private VehicleRepository _vehicleRepository;
 
-        public HomeController(ReservationRepository repository)
+        public HomeController(ReservationRepository reservationRepo, VehicleRepository vehicleRepo)
         {
-            _reservationRepository = repository;
+            _reservationRepository = reservationRepo;
+            _vehicleRepository = vehicleRepo;
         }
         public IActionResult Index()
         {
@@ -26,64 +28,51 @@ namespace ABCCarRental.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(LocationSetupViewModel lsvm)
+        public IActionResult Index(ReservationLocationViewModel lsvm)
         {
             if (ModelState.IsValid)
             {
                 var mainReservationModel = new ReservationViewModel { InitialSetup = lsvm };
                 HttpContext.Session.SetString("reservationWizard", JsonConvert.SerializeObject(mainReservationModel));
-                return View("VehicleSetup");
+                return RedirectToAction("ReservationVehicleSetup");
             }
 
             return View(lsvm);
         }
 
-        public IActionResult VehicleSetup()
+        public IActionResult ReservationVehicleSetup()
         {
-            var sessionString = HttpContext.Session.GetString("reservationWizard");
-            if (sessionString != null)
+            var availableVehicles = _vehicleRepository.GetAllAvailableVehicles();
+            var vehicleSetupViewModel = new ReservationVehicleViewModel(availableVehicles);            
+            return View(vehicleSetupViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult ReservationVehicleSetup(ReservationVehicleViewModel vsvm)
+        {
+            if (ModelState.IsValid)
             {
+                var sessionString = HttpContext.Session.GetString("reservationWizard");
                 var reservationViewModel = JsonConvert.DeserializeObject<ReservationViewModel>(sessionString);
-                return View(reservationViewModel.VehicleSetup);
+                reservationViewModel.VehicleSetup = vsvm;                
+                return RedirectToAction("ReservationContactSetup");
             }
+            return View(vsvm);
+        }
+
+        public IActionResult ReservationContactSetup()
+        {
             return View();
         }
 
         [HttpPost]
-        public IActionResult VehicleSetup(VehicleSetupViewModel vsvm)
+        public IActionResult ReservationContactSetup(ReservationContactViewModel rcvm)
         {
             if (ModelState.IsValid)
             {
-                vsvm.VehicleId = 1;
-                var reservationViewModel = JsonConvert.DeserializeObject<ReservationViewModel>(HttpContext.Session.GetString("reservationWizard"));
-                reservationViewModel.VehicleSetup = vsvm;
-                var newReservation = new Reservation
-                {
-                    ConfirmationNumber = 69878784,
-                    CustomerId = 1,
-                    PickupDate = reservationViewModel.InitialSetup.PickupDate,
-                    ReturnDate = reservationViewModel.InitialSetup.ReturnDate,
-                    StoreLocation = reservationViewModel.InitialSetup.StoreLocation,
-                    TotalCost = 70,
-                    VehicleId = vsvm.VehicleId
-                                
-                };
-                try
-                {
-                    _reservationRepository.AddNewReservation(newReservation);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("supin");
-                    throw;
-                }
-                //            return View("NextSetup", mainReservationModel);
-                return RedirectToAction("Index");
+                return View(rcvm);
             }
-            return View(vsvm);
-
-
-
+            return View(rcvm);
         }
 
         public IActionResult About()

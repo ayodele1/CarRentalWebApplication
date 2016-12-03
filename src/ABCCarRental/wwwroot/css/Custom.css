@@ -1,11 +1,17 @@
 ﻿
 
-.pickupdate{
-    background-color:#eee !important;
+.pickupdate {
+    background-color: #eee !important;
 }
-.returndate{
-    background-color:#eee !important;
+
+.returndate {
+    background-color: #eee !important;
 }
-.storeLocation{
-    background-color:#eee !important;
+
+.storeLocation {
+    background-color: #eee !important;
+}
+
+.selectedVehicle {
+    border: 2px solid green;
 }

@@ -32,6 +32,7 @@ namespace ABCCarRental
             services.AddDbContext<ApplicationDbContext>();
             services.AddScoped<CustomerRepository>();
             services.AddScoped<ReservationRepository>();
+            services.AddScoped<VehicleRepository>();
             services.AddDistributedMemoryCache();
             services.AddSession();
             

@@ -1,0 +1,38 @@
+﻿@model DomainObjects.ViewModels.ReservationVehicleViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="row">
+    <br />
+    <h5><b>SELECT VEHICLE</b></h5>
+</div>
+<div class="row">
+
+    @foreach (var vehicle in Model.Vehicles)
+    {
+        string pricePerDay = string.Concat("$", vehicle.PricePerDay);
+
+        <div class="col-sm-6 col-md-4">
+            <form asp-controller="Home" asp-action="ReservationVehicleSetup" method="post" role="form">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" asp-for="VehicleId" value=@(vehicle.Id) />
+                <div class="thumbnail">
+                    <img src="~/images/@(vehicle.ImageName)" />
+                    <hr />
+                    <div class="caption">
+                        <h5><i>@vehicle.Name</i></h5>
+                        <p><i><b>Price Per Day:</b></i> @pricePerDay</p>
+                        <p>
+                            <input type="button" value="More Details" class="btn btn-default" />
+                            <input type="submit" value="SELECT" class="btn btn-default" id="uservehicle" onclick="VehicleSelected()" />
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    }
+
+</div>

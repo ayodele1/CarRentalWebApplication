@@ -17,6 +17,10 @@ namespace DomainObjects
 
     public class Vehicle
     {
+        public Vehicle()
+        {
+
+        }
         public int Id { get; set; }
         public string Name { get; set; }
 
