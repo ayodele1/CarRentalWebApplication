@@ -21,9 +21,7 @@ namespace DomainObjects.Migrations
                     EmailAddress = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    RentalId = table.Column<int>(nullable: true),
-                    ReservationId = table.Column<int>(nullable: true)
+                    PhoneNumber = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -34,14 +32,14 @@ namespace DomainObjects.Migrations
                 name: "Vehicles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Image = table.Column<byte[]>(nullable: true),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ImageName = table.Column<string>(nullable: true),
                     MakeYear = table.Column<int>(nullable: false),
-                    MyProperty = table.Column<int>(nullable: false),
+                    ModelType = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     PassengerCapacity = table.Column<int>(nullable: false),
                     PricePerDay = table.Column<double>(nullable: false),
-                    Type = table.Column<int>(nullable: false),
                     isAvailable = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -60,28 +58,27 @@ namespace DomainObjects.Migrations
                     DateModified = table.Column<DateTime>(nullable: false),
                     PickupDate = table.Column<DateTime>(nullable: false),
                     PickupTime = table.Column<DateTime>(nullable: false),
-                    RentalId = table.Column<int>(nullable: true),
                     ReturnDate = table.Column<DateTime>(nullable: false),
                     ReturnTime = table.Column<DateTime>(nullable: false),
                     TotalCost = table.Column<double>(nullable: false),
-                    VehicleId = table.Column<string>(nullable: true),
+                    VehicleId = table.Column<int>(nullable: false),
                     isActive = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rentals", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Rentals_Users_RentalId",
-                        column: x => x.RentalId,
+                        name: "FK_Rentals_Users_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Rentals_Vehicles_VehicleId",
                         column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,33 +93,33 @@ namespace DomainObjects.Migrations
                     DateModified = table.Column<DateTime>(nullable: false),
                     PickupDate = table.Column<DateTime>(nullable: false),
                     PickupTime = table.Column<DateTime>(nullable: false),
-                    ReservationId = table.Column<int>(nullable: true),
                     ReturnDate = table.Column<DateTime>(nullable: false),
                     ReturnTime = table.Column<DateTime>(nullable: false),
+                    StoreLocation = table.Column<string>(nullable: true),
                     TotalCost = table.Column<double>(nullable: false),
-                    VehicleId = table.Column<string>(nullable: true)
+                    VehicleId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reservations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reservations_Users_ReservationId",
-                        column: x => x.ReservationId,
+                        name: "FK_Reservations_Users_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Reservations_Vehicles_VehicleId",
                         column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rentals_RentalId",
+                name: "IX_Rentals_CustomerId",
                 table: "Rentals",
-                column: "RentalId");
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rentals_VehicleId",
@@ -130,9 +127,9 @@ namespace DomainObjects.Migrations
                 column: "VehicleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_ReservationId",
+                name: "IX_Reservations_CustomerId",
                 table: "Reservations",
-                column: "ReservationId");
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_VehicleId",

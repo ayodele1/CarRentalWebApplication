@@ -19,11 +19,14 @@ namespace DomainObjects
             set { isActive = value ? 1 : 0; }
         }
 
+        [ForeignKey("Customer")]
         public int CustomerId { get; set; }
 
         //Foreign Key
         public Customer Customer { get; set; }
 
+        [ForeignKey("Vehicle")]
+        public int VehicleId { get; set; }
         //Foreign Key
         public Vehicle Vehicle { get; set; }
 

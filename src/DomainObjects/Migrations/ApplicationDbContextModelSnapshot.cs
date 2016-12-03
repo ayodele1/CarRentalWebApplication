@@ -31,21 +31,19 @@ namespace DomainObjects.Migrations
 
                     b.Property<DateTime>("PickupTime");
 
-                    b.Property<int?>("RentalId");
-
                     b.Property<DateTime>("ReturnDate");
 
                     b.Property<DateTime>("ReturnTime");
 
                     b.Property<double>("TotalCost");
 
-                    b.Property<string>("VehicleId");
+                    b.Property<int>("VehicleId");
 
                     b.Property<int>("isActive");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RentalId");
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("VehicleId");
 
@@ -69,8 +67,6 @@ namespace DomainObjects.Migrations
 
                     b.Property<DateTime>("PickupTime");
 
-                    b.Property<int?>("ReservationId");
-
                     b.Property<DateTime>("ReturnDate");
 
                     b.Property<DateTime>("ReturnTime");
@@ -79,11 +75,11 @@ namespace DomainObjects.Migrations
 
                     b.Property<double>("TotalCost");
 
-                    b.Property<string>("VehicleId");
+                    b.Property<int>("VehicleId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReservationId");
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("VehicleId");
 
@@ -117,22 +113,20 @@ namespace DomainObjects.Migrations
 
             modelBuilder.Entity("DomainObjects.Vehicle", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<byte[]>("Image");
+                    b.Property<string>("ImageName");
 
                     b.Property<int>("MakeYear");
 
-                    b.Property<int>("MyProperty");
+                    b.Property<int>("ModelType");
 
                     b.Property<string>("Name");
 
                     b.Property<int>("PassengerCapacity");
 
                     b.Property<double>("PricePerDay");
-
-                    b.Property<int>("Type");
 
                     b.Property<int>("isAvailable");
 
@@ -146,10 +140,6 @@ namespace DomainObjects.Migrations
                     b.HasBaseType("DomainObjects.User");
 
                     b.Property<string>("PhoneNumber");
-
-                    b.Property<int>("RentalId");
-
-                    b.Property<int>("ReservationId");
 
                     b.ToTable("Customer");
 
@@ -170,22 +160,26 @@ namespace DomainObjects.Migrations
                 {
                     b.HasOne("DomainObjects.Customer", "Customer")
                         .WithMany("Rentals")
-                        .HasForeignKey("RentalId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DomainObjects.Vehicle", "Vehicle")
                         .WithMany()
-                        .HasForeignKey("VehicleId");
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DomainObjects.Reservation", b =>
                 {
                     b.HasOne("DomainObjects.Customer", "Customer")
                         .WithMany("Reservations")
-                        .HasForeignKey("ReservationId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DomainObjects.Vehicle", "Vehicle")
                         .WithMany()
-                        .HasForeignKey("VehicleId");
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

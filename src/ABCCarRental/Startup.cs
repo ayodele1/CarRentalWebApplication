@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using DomainObjects;
 using Microsoft.EntityFrameworkCore;
 using DataAccess;
+using AutoMapper;
+using DomainObjects.ViewModels;
 
 namespace ABCCarRental
 {
@@ -29,7 +31,9 @@ namespace ABCCarRental
             services.AddSingleton(Configuration);
             services.AddDbContext<ApplicationDbContext>();
             services.AddScoped<CustomerRepository>();
-          
+            services.AddScoped<ReservationRepository>();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             
             // Add framework services.
             services.AddMvc();
@@ -41,6 +45,11 @@ namespace ABCCarRental
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<ReservationViewModel, Reservation>();
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -50,6 +59,7 @@ namespace ABCCarRental
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseSession();
 
             app.UseStaticFiles();
 

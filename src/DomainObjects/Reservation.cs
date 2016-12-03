@@ -12,6 +12,7 @@ namespace DomainObjects
 
         public int ConfirmationNumber { get; set; }
 
+        [ForeignKey("Customer")]
         public int CustomerId { get; set; }
 
         //Foreign Key
@@ -20,6 +21,9 @@ namespace DomainObjects
         public double TotalCost { get; set; }
 
         public string StoreLocation { get; set; }
+
+        [ForeignKey("Vehicle")]
+        public int VehicleId { get; set; }
 
         //Foreign Key
         public Vehicle Vehicle { get; set; }

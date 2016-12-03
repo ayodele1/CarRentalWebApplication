@@ -18,15 +18,8 @@ namespace DomainObjects
 
         public string PhoneNumber { get; set; }
 
-        
-        public int ReservationId { get; set; }
+        public virtual ICollection<Reservation> Reservations { get; set; }
 
-        [ForeignKey("ReservationId")]
-        public ICollection<Reservation> Reservations { get; set; }
-
-        public int RentalId { get; set; }
-
-        [ForeignKey("RentalId")]
-        public ICollection<Rental> Rentals { get; set; }
+        public virtual ICollection<Rental> Rentals { get; set; }
     }
 }

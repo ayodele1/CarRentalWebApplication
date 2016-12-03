@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DomainObjects.ViewModels
+namespace DomainObjects
 {
-    public class VehicleSetupViewModel
+    public class NonCustomer :User
     {
-        public int VehicleId { get; set; }
+        public string  PhoneNumber { get; set; }
     }
 }

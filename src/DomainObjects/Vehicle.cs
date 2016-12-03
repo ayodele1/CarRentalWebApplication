@@ -17,20 +17,18 @@ namespace DomainObjects
 
     public class Vehicle
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
 
         public int MakeYear { get; set; }
 
         public double PricePerDay { get; set; }
 
-        public int MyProperty { get; set; }
-
-        public VehicleType Type { get; set; }
+        public VehicleType ModelType { get; set; }
 
         public int PassengerCapacity { get; set; }
 
-        public byte[] Image { get; set; }
+        public string ImageName { get; set; }
 
         public int isAvailable { get; set; }
 

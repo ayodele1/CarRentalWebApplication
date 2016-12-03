@@ -7,6 +7,10 @@ namespace DomainObjects
 {
     public abstract class User : IModificationHistory
     {
+        public User()
+        {
+
+        }
         public User(string firstname, string lastname, string emailaddress)
         {
             FirstName = firstname;

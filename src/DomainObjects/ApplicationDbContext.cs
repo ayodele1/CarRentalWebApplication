@@ -21,6 +21,8 @@ namespace DomainObjects
 
         public DbSet<CustomerRepresentative> CustomerRepresentatives { get; set; }
 
+        public DbSet<NonCustomer> NonCustomers { get; set; }
+
         public DbSet<Rental> Rentals { get; set; }
 
         public DbSet<Reservation> Reservations { get; set; }
