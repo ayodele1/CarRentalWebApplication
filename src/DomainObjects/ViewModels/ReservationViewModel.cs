@@ -10,5 +10,9 @@ namespace DomainObjects.ViewModels
         public ReservationLocationViewModel InitialSetup { get; set; }
 
         public ReservationVehicleViewModel VehicleSetup { get; set; }
+
+        public RegistrationViewModel ReviewAndContactSetup { get; set; }
+
+        public double StatesTax { get { return 22.67; } set { } }
     }
 }

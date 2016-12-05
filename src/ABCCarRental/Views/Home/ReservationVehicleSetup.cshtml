@@ -18,7 +18,8 @@
         <div class="col-sm-6 col-md-4">
             <form asp-controller="Home" asp-action="ReservationVehicleSetup" method="post" role="form">
                 <div asp-validation-summary="All" class="text-danger"></div>
-                <input type="hidden" asp-for="VehicleId" value=@(vehicle.Id) />
+               <input type="hidden" asp-for="ReservationVehicle.Id" value=@(vehicle.Id) />
+
                 <div class="thumbnail">
                     <img src="~/images/@(vehicle.ImageName)" />
                     <hr />

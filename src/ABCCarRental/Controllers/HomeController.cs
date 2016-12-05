@@ -24,7 +24,9 @@ namespace ABCCarRental.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            //For testing purposes. Remember to remove this.
+            ReservationLocationViewModel rlvm = new ReservationLocationViewModel { PickupDate = DateTime.Now, ReturnDate = DateTime.Now, StoreLocation = "jkdjkjsjk" };
+            return View(rlvm);
         }
 
         [HttpPost]
@@ -33,7 +35,7 @@ namespace ABCCarRental.Controllers
             if (ModelState.IsValid)
             {
                 var mainReservationModel = new ReservationViewModel { InitialSetup = lsvm };
-                HttpContext.Session.SetString("reservationWizard", JsonConvert.SerializeObject(mainReservationModel));
+                SaveReservationToSession(mainReservationModel);
                 return RedirectToAction("ReservationVehicleSetup");
             }
 
@@ -51,28 +53,39 @@ namespace ABCCarRental.Controllers
         public IActionResult ReservationVehicleSetup(ReservationVehicleViewModel vsvm)
         {
             if (ModelState.IsValid)
-            {
-                var sessionString = HttpContext.Session.GetString("reservationWizard");
-                var reservationViewModel = JsonConvert.DeserializeObject<ReservationViewModel>(sessionString);
-                reservationViewModel.VehicleSetup = vsvm;                
-                return RedirectToAction("ReservationContactSetup");
+            {     
+                var reservationViewModel = GetReservationFromSession();
+                vsvm.ReservationVehicle = _vehicleRepository.GetVehicleById(vsvm.ReservationVehicle.Id);
+                reservationViewModel.VehicleSetup = vsvm;
+                SaveReservationToSession(reservationViewModel);                
+                return RedirectToAction("ReservationReviewSetup");
             }
             return View(vsvm);
         }
 
-        public IActionResult ReservationContactSetup()
+        public IActionResult ReservationReviewSetup()
         {
-            return View();
+            //create a new ReviewAndContact ViewModel
+            RegistrationViewModel rvm = new RegistrationViewModel { ControllerName="Home",ActionName= "ReservationReviewSetup",submitButtonValue="MAKE pRESERVATION" };
+            var reservationViewModel = GetReservationFromSession();
+            if (reservationViewModel != null)
+            {
+
+                reservationViewModel.ReviewAndContactSetup = rvm;
+                return View(reservationViewModel);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty,"Error Loading This Page");
+                return View();
+            }
+                
         }
 
         [HttpPost]
-        public IActionResult ReservationContactSetup(ReservationContactViewModel rcvm)
+        public IActionResult ReservationReviewSetup(ReservationViewModel rvm)
         {
-            if (ModelState.IsValid)
-            {
-                return View(rcvm);
-            }
-            return View(rcvm);
+            return View();
         }
 
         public IActionResult About()
@@ -92,6 +105,17 @@ namespace ABCCarRental.Controllers
         public IActionResult Error()
         {
             return View();
+        }
+
+        private ReservationViewModel GetReservationFromSession()
+        {
+            var sessionString = HttpContext.Session.GetString("reservationWizard");
+            return JsonConvert.DeserializeObject<ReservationViewModel>(sessionString);
+        }
+
+        private void SaveReservationToSession(ReservationViewModel rvm)
+        {
+            HttpContext.Session.SetString("reservationWizard", JsonConvert.SerializeObject(rvm));
         }
     }
 }

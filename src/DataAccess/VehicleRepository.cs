@@ -25,6 +25,11 @@ namespace DataAccess
             return _context.Vehicles.Where(x => x.IsAvailable).ToList();
         }
 
+        public Vehicle GetVehicleById(int id)
+        {
+            return _context.Vehicles.Where(x => x.Id == id).FirstOrDefault();
+        }
+
         public void AddNewVehicle(Vehicle newVehicle)
         {
             _context.Vehicles.Add(newVehicle);

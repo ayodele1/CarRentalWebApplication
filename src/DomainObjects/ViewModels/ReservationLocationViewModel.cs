@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DomainObjects.ViewModels
 {
-    [ModelMetadataType(typeof(LoginSetupValidation))]
+    [ModelMetadataType(typeof(ReservationLocationValidation))]
     public class ReservationLocationViewModel
     {
         public string StoreLocation { get; set; }
@@ -16,7 +16,7 @@ namespace DomainObjects.ViewModels
 
         public DateTime ReturnDate { get; set; }
 
-        class LoginSetupValidation
+        class ReservationLocationValidation
         {
             [Required]
             public string StoreLocation { get; set; }

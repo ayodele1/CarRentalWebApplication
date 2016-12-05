@@ -15,7 +15,9 @@ namespace DomainObjects.ViewModels
         {
             Vehicles = availableVehicles;
         }
-        public int VehicleId { get; set; }
+        //public int VehicleId { get; set; }
+
+        public Vehicle ReservationVehicle { get; set; }
 
         public IEnumerable<Vehicle> Vehicles { get; set; }
     }

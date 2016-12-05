@@ -1,0 +1,64 @@
+﻿@model DomainObjects.ViewModels.ReservationViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var totalVehicleCost = Model.VehicleSetup.ReservationVehicle.PricePerDay;
+    var totalRentalDays = Convert.ToInt32((Model.InitialSetup.ReturnDate - Model.InitialSetup.PickupDate).TotalDays);
+    if (totalRentalDays > 0)
+    {
+        totalVehicleCost = Model.VehicleSetup.ReservationVehicle.PricePerDay * totalRentalDays;
+    }
+    var totalRentalCost = totalVehicleCost + Model.StatesTax;
+}
+<h3>Review Your Reservation</h3>
+
+<div class="row">
+    <div class="col-md-5  reservationSummary">
+        <br />
+        <h4>RESERVATION SUMMARY</h4>
+        <hr />
+        <div class="thumbnail reservation-summary-rental-vehicle">
+            <span><b>@Model.VehicleSetup.ReservationVehicle.Name</b></span>
+            <img src="~/images/@(Model.VehicleSetup.ReservationVehicle.ImageName)" id="rentalVehicle" />
+        </div>
+        <table class="table-responsive">
+            <tr class="reservation-summary-table-header">
+                <th><h5><b><i>PRICE DETAILS</i></b></h5></th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>Vehicle Price (For @string.Concat(totalRentalDays, " days")):&nbsp;</td>
+                <td class=""><p><b>@string.Concat("$", Model.VehicleSetup.ReservationVehicle.PricePerDay)</b></p></td>
+            </tr>
+            <tr>
+                <td>States Tax:&nbsp;</td>
+                <td class=""><p><b>@string.Concat("$", Model.StatesTax).ToString()</b></p></td>
+            </tr>
+            <tr>
+                <td>Total Cost:&nbsp;</td>
+                <td class="numeric"><b>@string.Concat("$", totalRentalCost.ToString())</b></td>
+            </tr>
+
+            <tr class="reservation-summary-table-header">
+                <th><h5><b><i>LOGISTICS</i></b></h5></th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>PickUp / Return Location:&nbsp;</td>
+                <td class=""><p><b>@Model.InitialSetup.StoreLocation</b></p></td>
+            </tr>
+            <tr>
+                <td>Pickup Date:&nbsp;</td>
+                <td class=""><p><b>@Model.InitialSetup.PickupDate.ToString("yyyy-MM-dd")</b></p></td>
+            </tr>
+            <tr>
+                <td>Return Date:&nbsp;</td>
+                <td class=""><b>@Model.InitialSetup.ReturnDate.ToString("yyyy-MM-dd")</b></td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-6 col-md-offset-1">
+        @Html.Partial("Partial/RegisterUser", Model.ReviewAndContactSetup);
+    </div>
+</div>
