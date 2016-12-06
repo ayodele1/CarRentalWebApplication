@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DomainObjects
 {
-    public class Rental : IRentalInfo,IModificationHistory
+    public class Rental : IModificationHistory
     {
         public int Id { get; set; }
 
@@ -18,16 +18,15 @@ namespace DomainObjects
             get { return isActive != 0; }
             set { isActive = value ? 1 : 0; }
         }
-
-        [ForeignKey("Customer")]
-        public int CustomerId { get; set; }
-
-        //Foreign Key
-        public Customer Customer { get; set; }
-
-        [ForeignKey("Vehicle")]
+        
         public int VehicleId { get; set; }
+
+        public string ApplicationUserId { get; set; }
+
+        public ApplicationUser ApplicationUser { get; set; }
         //Foreign Key
+
+        [ForeignKey("VehicleId")]
         public Vehicle Vehicle { get; set; }
 
         public double TotalCost { get; set; }

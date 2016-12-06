@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace DomainObjects
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         private IConfigurationRoot _config;
 
@@ -15,7 +16,7 @@ namespace DomainObjects
             _config = config;
         }
 
-        public DbSet<User> Users { get; set; }
+        //        public DbSet<User> Users { get; set; }
 
         public DbSet<Customer> Customers { get; set; }
 
@@ -31,14 +32,26 @@ namespace DomainObjects
 
         protected override void OnConfiguring(DbContextOptionsBuilder ob)
         {
-            var connectionString =   _config.GetConnectionString("ConnectionString");
             base.OnConfiguring(ob);
+            var connectionString = _config.GetConnectionString("ConnectionString");
             ob.UseSqlServer(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
-
+            base.OnModelCreating(mb);
+            mb.Entity<ApplicationUser>().ToTable("Users", "dbo");
+            mb.Entity<IdentityRole>().ToTable("MyRoles", "dbo");
+            mb.Entity<Reservation>()
+                .HasOne(x => x.ApplicationUser)
+                .WithMany(y => y.Reservations)
+                .HasForeignKey(z => z.ApplicationUserId);
+            mb.Entity<Rental>()
+                .HasOne(x => x.ApplicationUser)
+                .WithMany(y => y.Rentals)
+                .HasForeignKey(z => z.ApplicationUserId);
+                
+            
         }
 
         /// <summary>

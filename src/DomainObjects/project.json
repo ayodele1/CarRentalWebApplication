@@ -14,7 +14,8 @@
     "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
     "Microsoft.AspNetCore.Mvc.Core": "1.0.1",
     "AutoMapper": "5.2.0",
-    "Microsoft.AspNetCore.Session": "1.1.0"
+    "Microsoft.AspNetCore.Session": "1.1.0",
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.0"
   },
 
   "frameworks": {

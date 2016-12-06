@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace DomainObjects
 {
-    public class CustomerRepresentative : User
+    public class CustomerRepresentative : ApplicationUser
     {
-        public CustomerRepresentative(string firstname, string lastname, string emailaddress)
-            :base(firstname, lastname,emailaddress)
+        public CustomerRepresentative()
+//            :base(firstname, lastname,emailaddress)
         {
 
         }

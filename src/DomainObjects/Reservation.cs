@@ -6,26 +6,24 @@ using System.Threading.Tasks;
 
 namespace DomainObjects
 {
-    public class Reservation : IModificationHistory,IRentalInfo
+    public class Reservation : IModificationHistory
     {
         public int Id { get; set; }
 
         public int ConfirmationNumber { get; set; }
 
-        [ForeignKey("Customer")]
-        public int CustomerId { get; set; }
-
-        //Foreign Key
-        public Customer Customer { get; set; }
+        public string ApplicationUserId { get; set; }
+        
+        public ApplicationUser ApplicationUser { get; set; }
 
         public double TotalCost { get; set; }
 
         public string StoreLocation { get; set; }
-
-        [ForeignKey("Vehicle")]
+        
         public int VehicleId { get; set; }
 
         //Foreign Key
+        [ForeignKey("VehicleId")]
         public Vehicle Vehicle { get; set; }
 
         public DateTime PickupDate { get; set; }

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace DomainObjects
 {
-    public class NonCustomer :User
+    public class NonCustomer :ApplicationUser
     {
-        public string  PhoneNumber { get; set; }
+        
     }
 }
