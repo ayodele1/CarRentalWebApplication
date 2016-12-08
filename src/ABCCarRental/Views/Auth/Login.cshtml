@@ -1,0 +1,39 @@
+﻿@model DomainObjects.ViewModels.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="row">
+    <div class="login-form col-md-8 col-md-offset-4">
+        <form asp-controller="Auth" asp-action="Login" role="form" method="post" class="form-horizontal" id="loginform">
+            <br /><br />
+            <h4>LOGIN</h4>
+            <br />
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-lg-2">Email</label>
+                    <div class="col-lg-5">
+                        <input type="text" placeholder="Enter Email" style="width:100%;" />
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2">Password</label>
+                    <div class="col-lg-5">
+                        <input type="text" placeholder="Enter Password" style="width:100%;" />
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="LOGIN" class="btn btn-default" style="width:100%" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

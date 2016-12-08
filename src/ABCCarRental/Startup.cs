@@ -8,13 +8,17 @@ using Microsoft.EntityFrameworkCore;
 using DataAccess;
 using AutoMapper;
 using DomainObjects.ViewModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ABCCarRental
 {
     public class Startup
     {
+        private IHostingEnvironment _env;
         public Startup(IHostingEnvironment env)
         {
+            _env = env;
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -27,17 +31,33 @@ namespace ABCCarRental
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        {             
+            // Add framework services.
+            services.AddMvc(config => 
+            {
+                if (_env.IsProduction())
+                {
+                    //config.Filters.Add(new RequireHttpsAttribute());
+                }
+            });
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+            {
+                config.User.RequireUniqueEmail = true;
+                config.Password.RequiredLength = 6;
+                config.Password.RequireDigit = false;
+                config.Password.RequireNonAlphanumeric = false;
+                config.Password.RequireUppercase = false;
+                config.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSingleton(Configuration);
             services.AddDbContext<ApplicationDbContext>();
-            services.AddScoped<CustomerRepository>();
             services.AddScoped<ReservationRepository>();
             services.AddScoped<VehicleRepository>();
             services.AddDistributedMemoryCache();
             services.AddSession();
-            
-            // Add framework services.
-            services.AddMvc();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +83,8 @@ namespace ABCCarRental
             app.UseSession();
 
             app.UseStaticFiles();
+
+            app.UseIdentity();
 
             app.UseMvc(routes =>
             {

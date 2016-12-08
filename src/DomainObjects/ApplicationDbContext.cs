@@ -18,12 +18,6 @@ namespace DomainObjects
 
         //        public DbSet<User> Users { get; set; }
 
-        public DbSet<Customer> Customers { get; set; }
-
-        public DbSet<CustomerRepresentative> CustomerRepresentatives { get; set; }
-
-        public DbSet<NonCustomer> NonCustomers { get; set; }
-
         public DbSet<Rental> Rentals { get; set; }
 
         public DbSet<Reservation> Reservations { get; set; }

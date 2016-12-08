@@ -7,6 +7,7 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootswatch/paper/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/datepicker.css" />
         <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/all.css" />
@@ -65,7 +66,16 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">ABOUT US</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">SIGN IN / SIGN UP</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@User.Identity.Name</li>
+                        <li><a href="#">SIGN OUT</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-controller="Auth" asp-action="Login">SIGN IN</a></li>
+                        <li><a asp-controller="Auth" asp-action="Register">SIGN UP</a></li>
+                    }
                 </ul>
             </div>
         </div>

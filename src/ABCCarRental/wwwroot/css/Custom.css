@@ -55,3 +55,9 @@ fieldset{
     border:1px solid darkcyan;
     padding: 20px;
 }
+#loginform{
+    border:2px solid #eee;
+}
+.login-form{
+    background-color:#eee;
+}
