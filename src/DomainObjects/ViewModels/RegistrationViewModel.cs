@@ -20,15 +20,7 @@ namespace DomainObjects.ViewModels
 
         public string Password { get; set; }
 
-        public bool HidePasswordField { get; set; }
-
-        public string ControllerName { get; set; }
-
-        public string ActionName { get; set; }
-
-        public string submitButtonValue { get; set; }
-
-        class RegisterationValidation
+        public class RegisterationValidation
         {
             [Required(ErrorMessage = "FirstName is Required")]
             public string FirstName { get; set; }

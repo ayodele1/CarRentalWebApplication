@@ -1,6 +1,7 @@
 ﻿using DomainObjects;
 using DomainObjects.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,9 @@ namespace ABCCarRental.Controllers.Auth
     {
         private SignInManager<ApplicationUser> _signInManager;
         private UserManager<ApplicationUser> _userManager;
-        private RoleManager<ApplicationUser> _roleManager;
+        private RoleManager<IdentityRole> _roleManager;
 
-        public AuthController(SignInManager<ApplicationUser> signInMgr, UserManager<ApplicationUser> userMgr, RoleManager<ApplicationUser> roleMgr)
+        public AuthController(SignInManager<ApplicationUser> signInMgr, UserManager<ApplicationUser> userMgr, RoleManager<IdentityRole> roleMgr)
         {
             _signInManager = signInMgr;
             _userManager = userMgr;
@@ -58,14 +59,7 @@ namespace ABCCarRental.Controllers.Auth
 
         public IActionResult Register()
         {
-            var regViewModel = new RegistrationViewModel
-            {
-                HidePasswordField = false,
-                ActionName = "Register",
-                ControllerName = "Auth",
-                submitButtonValue = "REGISTER"
-            };
-            return View(regViewModel);
+            return View();
         }
 
         [HttpPost]
@@ -83,17 +77,31 @@ namespace ABCCarRental.Controllers.Auth
                         UserName = rvm.EmailAddress,
                         PhoneNumber = rvm.PhoneNumber
                     };
-                    await _userManager.AddToRoleAsync(user, "customer");
+
                     var result = await _userManager.CreateAsync(user, rvm.Password);
                     if (result.Succeeded)
                     {
+                        await _userManager.AddToRoleAsync(user, "customer");
                         await _signInManager.SignInAsync(user, false);
                         return RedirectToAction("Index", "Home");
                     }
                 }
-                ModelState.AddModelError(string.Empty,"Account could not be created");
             }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Account could not be created");
+            }
+            
             return View(rvm);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                await _signInManager.SignOutAsync();
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

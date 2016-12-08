@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DomainObjects.ViewModels;
-using AutoMapper;
-using DomainObjects;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using DataAccess;
@@ -45,7 +40,7 @@ namespace ABCCarRental.Controllers
         public IActionResult ReservationVehicleSetup()
         {
             var availableVehicles = _vehicleRepository.GetAllAvailableVehicles();
-            var vehicleSetupViewModel = new ReservationVehicleViewModel(availableVehicles);            
+            var vehicleSetupViewModel = new ReservationVehicleViewModel(availableVehicles);
             return View(vehicleSetupViewModel);
         }
 
@@ -53,11 +48,11 @@ namespace ABCCarRental.Controllers
         public IActionResult ReservationVehicleSetup(ReservationVehicleViewModel vsvm)
         {
             if (ModelState.IsValid)
-            {     
+            {
                 var reservationViewModel = GetReservationFromSession();
                 vsvm.ReservationVehicle = _vehicleRepository.GetVehicleById(vsvm.ReservationVehicle.Id);
                 reservationViewModel.VehicleSetup = vsvm;
-                SaveReservationToSession(reservationViewModel);                
+                SaveReservationToSession(reservationViewModel);
                 return RedirectToAction("ReservationReviewSetup");
             }
             return View(vsvm);
@@ -65,25 +60,19 @@ namespace ABCCarRental.Controllers
 
         public IActionResult ReservationReviewSetup()
         {
-            //create a new ReviewAndContact ViewModel
-            RegistrationViewModel rvm = new RegistrationViewModel { ControllerName="Home",ActionName= "ReservationReviewSetup",submitButtonValue="MAKE pRESERVATION" };
-            var reservationViewModel = GetReservationFromSession();
-            if (reservationViewModel != null)
-            {
-
-                reservationViewModel.ReviewAndContactSetup = rvm;
-                return View(reservationViewModel);
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty,"Error Loading This Page");
-                return View();
-            }
-                
+            var currModel = GetReservationFromSession();
+            return View(currModel);
         }
 
         [HttpPost]
         public IActionResult ReservationReviewSetup(ReservationViewModel rvm)
+        {
+            //Return confirmation
+            return RedirectToAction("ReservationComplete");
+            //Send Email to User
+        }
+
+        public IActionResult ReservationComplete()
         {
             return View();
         }

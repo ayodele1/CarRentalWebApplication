@@ -69,7 +69,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li>@User.Identity.Name</li>
-                        <li><a href="#">SIGN OUT</a></li>
+                        <li><a asp-controller="Auth" asp-action="Logout">SIGN OUT</a></li>
                     }
                     else
                     {
