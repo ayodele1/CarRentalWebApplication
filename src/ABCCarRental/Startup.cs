@@ -69,6 +69,8 @@ namespace ABCCarRental
             Mapper.Initialize(config =>
             {
                 config.CreateMap<ReservationViewModel, Reservation>();
+                config.CreateMap<ReservationContactViewModel, ApplicationUser>();
+                config.CreateMap<RegistrationViewModel, ApplicationUser>();
             });
 
             if (env.IsDevelopment())

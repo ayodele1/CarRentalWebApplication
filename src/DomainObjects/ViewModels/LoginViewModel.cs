@@ -17,6 +17,7 @@ namespace DomainObjects.ViewModels
         class LoginValidation
         {
             [Required]
+            [DataType(DataType.EmailAddress)]
             public string Email { get; set; }
 
             [Required]

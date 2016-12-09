@@ -4,8 +4,10 @@
 }
 
 <div class="row">
+    <br /><br />
     <div class="login-form col-md-8 col-md-offset-4">
         <form asp-controller="Auth" asp-action="Login" role="form" method="post" class="form-horizontal" id="loginform">
+            <div asp-validation-summary="All" class="text-danger"></div>
             <br /><br />
             <h4>LOGIN</h4>
             <br />
@@ -13,7 +15,7 @@
                 <div class="form-group">
                     <label class="col-lg-2">Email</label>
                     <div class="col-lg-5">
-                        <input type="text" placeholder="Enter Email" style="width:100%;" />
+                        <input type="email" placeholder="Enter Email"  asp-for="Email" style="width:100%;" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
@@ -21,8 +23,8 @@
                 <div class="form-group">
                     <label class="col-lg-2">Password</label>
                     <div class="col-lg-5">
-                        <input type="text" placeholder="Enter Password" style="width:100%;" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <input type="password" asp-for="Password" placeholder="Enter Password" style="width:100%;" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                 </div>
                 <br />

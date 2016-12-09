@@ -14,11 +14,17 @@ namespace DomainObjects.ViewModels
 
         public string  LastName { get; set; }
 
-        public string EmailAddress { get; set; }
+        public string Email { get; set; }
 
         public string PhoneNumber { get; set; }
 
         public string Password { get; set; }
+
+        public string UserName { get { return Email; } }
+
+        public DateTime DateCreated { get { return DateTime.Now; } }
+
+        public DateTime DateModified { get { return DateTime.Now; } }
 
         public class RegisterationValidation
         {
@@ -30,7 +36,7 @@ namespace DomainObjects.ViewModels
 
             [Required (ErrorMessage = "Email Address is Required")]
             [DataType(DataType.EmailAddress, ErrorMessage = "Please Enter a Valid Email Address")]
-            public string EmailAddress { get; set; }
+            public string Email { get; set; }
 
             [Required(ErrorMessage = "Phone Number is required")]
             [DataType(DataType.PhoneNumber)]

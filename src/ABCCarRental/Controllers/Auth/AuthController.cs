@@ -1,4 +1,5 @@
-﻿using DomainObjects;
+﻿using AutoMapper;
+using DomainObjects;
 using DomainObjects.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -42,19 +43,19 @@ namespace ABCCarRental.Controllers.Auth
                 {
                     if (string.IsNullOrWhiteSpace(returnUrl))
                     {
-                        return RedirectToAction("Reservation");
+                        return RedirectToAction("Index", "Home");
                     }
                     else
                     {
                         return Redirect(returnUrl);
                     }
                 }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "UserName/Password is Invalid");
+                }
             }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "UserName/Password is Invalid");
-            }
-            return View();
+            return View(lvm);
         }
 
         public IActionResult Register()
@@ -67,22 +68,15 @@ namespace ABCCarRental.Controllers.Auth
         {
             if (ModelState.IsValid)
             {
-                if (await _userManager.FindByEmailAsync(rvm.EmailAddress) == null)
+                if (await _userManager.FindByEmailAsync(rvm.Email) == null)
                 {
-                    var user = new ApplicationUser()
-                    {
-                        FirstName = rvm.FirstName,
-                        LastName = rvm.LastName,
-                        Email = rvm.EmailAddress,
-                        UserName = rvm.EmailAddress,
-                        PhoneNumber = rvm.PhoneNumber
-                    };
+                    var newUser = Mapper.Map<ApplicationUser>(rvm);
 
-                    var result = await _userManager.CreateAsync(user, rvm.Password);
+                    var result = await _userManager.CreateAsync(newUser, rvm.Password);
                     if (result.Succeeded)
                     {
-                        await _userManager.AddToRoleAsync(user, "customer");
-                        await _signInManager.SignInAsync(user, false);
+                        await _userManager.AddToRoleAsync(newUser, "customer");
+                        await _signInManager.SignInAsync(newUser, false);
                         return RedirectToAction("Index", "Home");
                     }
                 }

@@ -4,6 +4,8 @@ using DomainObjects.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using DataAccess;
+using DomainObjects;
+using AutoMapper;
 
 namespace ABCCarRental.Controllers
 {
@@ -67,6 +69,8 @@ namespace ABCCarRental.Controllers
         [HttpPost]
         public IActionResult ReservationReviewSetup(ReservationViewModel rvm)
         {
+            var newUser = Mapper.Map<ApplicationUser>(rvm.ReviewAndContactSetup);
+            var newReservation = Mapper.Map<Reservation>(rvm);
             //Return confirmation
             return RedirectToAction("ReservationComplete");
             //Send Email to User
