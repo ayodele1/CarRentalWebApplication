@@ -13,6 +13,10 @@ namespace DomainObjects.ViewModels
 
         public ReservationContactViewModel ReviewAndContactSetup { get; set; }
 
+        public QuickSignUpViewModel QuickSignUp { get; set; }
+
         public double StatesTax { get { return 22.67; } set { } }
+
+        public string  CurrentUserId { get; set; }
     }
 }

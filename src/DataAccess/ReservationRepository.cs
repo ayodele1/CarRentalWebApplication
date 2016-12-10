@@ -1,4 +1,5 @@
 ﻿using DomainObjects;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,12 @@ namespace DataAccess
     public class ReservationRepository
     {
         private ApplicationDbContext _context;
+        private UserManager<ApplicationUser> _userManager;
 
-        public ReservationRepository(ApplicationDbContext context)
+        public ReservationRepository(ApplicationDbContext context, UserManager<ApplicationUser> userMgr)
         {
             _context = context;
+            _userManager = userMgr;
         }
 
         public IEnumerable<Reservation> GetAll()
@@ -20,10 +23,18 @@ namespace DataAccess
             return _context.Reservations.ToList();
         }
 
-        public void AddNewReservation(Reservation newReservation)
+        public bool AddNewReservation(Reservation newReservation, string userId)
         {
-            _context.Reservations.Add(newReservation);
-            _context.SaveChanges();
+            var user = _context.Users.Find(userId);
+            if (user != null)
+            {
+                user.Reservations.Add(newReservation);
+                _context.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                _context.SaveChanges();
+                
+                return true;
+            }
+            return false;
         }
 
     }

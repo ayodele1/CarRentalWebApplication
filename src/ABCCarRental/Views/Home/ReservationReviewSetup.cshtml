@@ -58,45 +58,40 @@
             </tr>
         </table>
     </div>
-    <div class="col-md-6 col-md-offset-1">
-        <form asp-controller="Home" asp-action="ReservationReviewSetup" method="post" role="form" id="reservationContactForm">
-            <fieldset>
-                <legend>Please Complete all Fields</legend>
-                <div class="form-group">
-                    <label class="col col-lg-3">FirstName:</label>
-                    <input type="text" class="form-control contactInfoTextfield" id="reservationFirstName" asp-for=@(Model.ReviewAndContactSetup.FirstName) />
-                    <span asp-validation-for=@(Model.ReviewAndContactSetup.FirstName) class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="col col-lg-3">LastName:</label>
-                    <input type="text" class="form-control contactInfoTextfield" id="reservationLastName" asp-for=@(Model.ReviewAndContactSetup.LastName) />
-                    <span asp-validation-for=@(Model.ReviewAndContactSetup.LastName) class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="col col-lg-3">Email Address:</label>
-                    <input type="email" class="form-control contactInfoTextfield" id="reservationEmail" asp-for=@(Model.ReviewAndContactSetup.Email) />
-                    <span asp-validation-for=@(Model.ReviewAndContactSetup.Email) class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="col col-lg-3">Phone Number:</label>
-                    <input type="text" class="form-control contactInfoTextfield" id="reservationPhone" asp-for=@(Model.ReviewAndContactSetup.PhoneNumber) />
-                    <span asp-validation-for=@(Model.ReviewAndContactSetup.PhoneNumber) class="text-danger"></span>
-                </div>
-                @*@if (!Model.ReviewAndContactSetup.HidePasswordField)
-            {
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="col-md-6 col-md-offset-1">
+            <form asp-controller="Home" asp-action="ReservationReviewSetup" method="post" role="form" id="reservationContactForm">
+                <fieldset>
+                    <legend>Please Complete all Fields</legend>
                     <div class="form-group">
-                        <label class="col col-lg-3">Password:</label>
-                        <input type="password" class="form-control contactInfoTextfield" id="registrationPassword" asp-for="Password" />
-                        <span asp-validation-for=@(Model.ReviewAndContactSetup.Password)></span>
+                        <label class="col col-lg-3">FirstName:</label>
+                        <input type="text" class="form-control contactInfoTextfield" id="reservationFirstName" asp-for=@(Model.ReviewAndContactSetup.FirstName) />
+                        <span asp-validation-for=@(Model.ReviewAndContactSetup.FirstName) class="text-danger"></span>
                     </div>
-                }*@
-                <br />
-                <div class="form-group">
-                    <div class="col-lg-3">
-                        <input type="submit" value="MAKE RESERVATION" class="btn btn-default btn-lg" />
+                    <div class="form-group">
+                        <label class="col col-lg-3">LastName:</label>
+                        <input type="text" class="form-control contactInfoTextfield" id="reservationLastName" asp-for=@(Model.ReviewAndContactSetup.LastName) />
+                        <span asp-validation-for=@(Model.ReviewAndContactSetup.LastName) class="text-danger"></span>
                     </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
+                    <div class="form-group">
+                        <label class="col col-lg-3">Email Address:</label>
+                        <input type="email" class="form-control contactInfoTextfield" id="reservationEmail" asp-for=@(Model.ReviewAndContactSetup.Email) />
+                        <span asp-validation-for=@(Model.ReviewAndContactSetup.Email) class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col col-lg-3">Phone Number:</label>
+                        <input type="text" class="form-control contactInfoTextfield" id="reservationPhone" asp-for=@(Model.ReviewAndContactSetup.PhoneNumber) />
+                        <span asp-validation-for=@(Model.ReviewAndContactSetup.PhoneNumber) class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-lg-3">
+                            <input type="submit" value="MAKE RESERVATION" class="btn btn-default btn-lg" />
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    }
 </div>

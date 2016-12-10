@@ -68,7 +68,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li><a>@string.Concat(User.Identity.Name</a></li>
+                        <li><a>@User.Identity.Name</a></li>
                         <li><a asp-controller="Auth" asp-action="Logout">SIGN OUT</a></li>
                     }
                     else

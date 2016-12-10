@@ -10,7 +10,7 @@ namespace DomainObjects
     {
         public int Id { get; set; }
 
-        public int ConfirmationNumber { get; set; }
+        public long ConfirmationNumber { get; set; }
 
         public string ApplicationUserId { get; set; }
         

@@ -9,6 +9,11 @@ namespace DomainObjects
 {
     public class ApplicationUser : IdentityUser,IModificationHistory
     {
+        public ApplicationUser()
+        {
+            Reservations = new HashSet<Reservation>();
+            Rentals = new HashSet<Rental>();
+        }
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

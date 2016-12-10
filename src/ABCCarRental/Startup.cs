@@ -10,6 +10,9 @@ using AutoMapper;
 using DomainObjects.ViewModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Newtonsoft.Json;
+using System.Buffers;
 
 namespace ABCCarRental
 {
@@ -39,6 +42,11 @@ namespace ABCCarRental
                 {
                     //config.Filters.Add(new RequireHttpsAttribute());
                 }
+                //config.OutputFormatters.Clear();
+                //config.OutputFormatters.Add(new JsonOutputFormatter(new JsonSerializerSettings()
+                //                            {
+                //                                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                //                            }, ArrayPool<char>.Shared));
             });
 
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
