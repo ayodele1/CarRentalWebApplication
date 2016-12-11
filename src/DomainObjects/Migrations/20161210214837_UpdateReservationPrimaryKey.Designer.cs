@@ -8,9 +8,10 @@ using DomainObjects;
 namespace DomainObjects.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161210214837_UpdateReservationPrimaryKey")]
+    partial class UpdateReservationPrimaryKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -111,8 +112,7 @@ namespace DomainObjects.Migrations
             modelBuilder.Entity("DomainObjects.Reservation", b =>
                 {
                     b.Property<long>("ConfirmationNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ApplicationUserId");
 

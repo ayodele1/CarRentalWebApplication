@@ -1,0 +1,41 @@
+﻿@model DomainObjects.ViewModels.ReservationLocationViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var a = Model;
+}
+
+
+<div class="row" id="reservationFormDiv">
+    <form asp-controller=@(Model.FormController) asp-action=@(Model.FormAction) asp-route-returnurl="@ViewBag.ReturnUrl" method="post" class="form-horizontal" id="reservationForm" role="form">
+        <fieldset>
+            <legend>MAKE A RESERVATION NOW</legend>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group form-group-lg">
+                <label class="col-lg-3 control-label">YOUR LOCATION (CITY OR ZIP)</label>
+                <div class="col-lg-3">
+                    <input type="text" class="form-control input-lg search-field" id="userLocation" onfocus="geolocate();" placeholder="Enter a Location">
+                </div>
+                <label class="col-lg-3 control-label">OUR LOCATION</label>
+                <div class="col-lg-3">
+                    <select class="form-control storeLocation" id="" asp-for="StoreLocation">
+                        <option selected="selected" disabled="disabled">Select Rental Store Location</option>
+                        <option>987 Johnson Str, Pawtucket RI</option>
+                        <option>1234 Bing Street, Boston US</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group form-group-lg">
+                <label class="col-lg-3 control-label">PICKUP DATE</label>
+                <input type="text" asp-for="PickupDate" class="form-control input-lg pickupdate" readonly />
+
+                <label class="col-lg-3 control-label">RETURN DATE</label>
+                <input type="text" asp-for="ReturnDate" class="form-control input-lg returndate" readonly />
+                <div class="col-lg-3 pull-right">
+                    <input type="submit" value="CONTINUE" class="btn btn-primary btn-lg" />
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>

@@ -23,18 +23,27 @@ namespace DataAccess
             return _context.Reservations.ToList();
         }
 
+        public Reservation FindReservationByConfirmationNumber(long confirmationNumber)
+        {
+            return _context.Reservations.Find(confirmationNumber);
+        }
+
         public bool AddNewReservation(Reservation newReservation, string userId)
         {
             var user = _context.Users.Find(userId);
             if (user != null)
-            {
+            {                
                 user.Reservations.Add(newReservation);
-                _context.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
                 _context.SaveChanges();
                 
                 return true;
             }
             return false;
+        }
+
+        public Reservation FindReservationByUser(long confirmationNumber, ApplicationUser user)
+        {
+            return _context.Reservations.Where(x => x.ConfirmationNumber == confirmationNumber && string.Compare(x.ApplicationUserId, user.Id) == 0).FirstOrDefault();
         }
 
     }

@@ -1,0 +1,29 @@
+﻿@model DomainObjects.ViewModels.SearchReservationViewModel
+    @*
+        For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+    *@
+    @{
+    }
+
+    <div class="row">
+        <form role="form" asp-controller="Home" asp-action="SearchReservation" id="searchReservationForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger text-lg-center"></div>
+            <div class="form-group">
+                <label>Email</label>
+            </div>
+            <div class="form-group">
+                <input type="email" class="input input-lg" asp-for="Email" style="width:100%" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Confirmation Number</label>
+                </div>
+            <div class="form-group">
+                <input type="text" class="input input-lg" asp-for="ConfirmationNumber" style="width:100%" />
+                <span asp-validation-for="ConfirmationNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="FIND RESERVATION" class="btn btn-lg" />
+            </div>
+        </form>
+    </div>

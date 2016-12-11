@@ -31,6 +31,7 @@ namespace ABCCarRental.Controllers.Auth
             }
 
             return View();
+           
         }
 
         [HttpPost]

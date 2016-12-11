@@ -17,7 +17,7 @@ namespace ABCCarRental
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
-
+          
             host.Run();
         }
     }

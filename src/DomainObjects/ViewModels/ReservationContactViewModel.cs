@@ -9,7 +9,6 @@ namespace DomainObjects.ViewModels
     [ModelMetadataType(typeof(RegistrationViewModel.RegisterationValidation))]
     public class ReservationContactViewModel
     {
-        Random r = new Random();
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -20,7 +19,9 @@ namespace DomainObjects.ViewModels
 
         public string PhoneNumber { get; set; }
 
-        public long ConfirmationNumber { get { return Convert.ToInt64(r.Next(0, 1000000).ToString("D10")); } }
+        public long ConfirmationNumber { get; set; }
+
+        public double TotalCost { get; set; }
 
         public DateTime DateCreated { get { return DateTime.Now; } }
 

@@ -4,12 +4,28 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using DomainObjects.ModelServices;
 
 namespace DomainObjects.ViewModels
 {
     [ModelMetadataType(typeof(ReservationLocationValidation))]
-    public class ReservationLocationViewModel
+    public class ReservationLocationViewModel : IFormHyperLinkService
     {
+        private string _controllerName = string.Empty;
+        private string _actionName = string.Empty;
+
+        public string FormController
+        {
+            get { return _controllerName; }
+            set { _controllerName = value; }
+        }
+
+        public string FormAction
+        {
+            get { return _actionName; }
+
+            set { _actionName = value; }
+        }
         public string StoreLocation { get; set; }
 
         public DateTime PickupDate { get; set; }
