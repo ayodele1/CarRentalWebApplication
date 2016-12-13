@@ -1,0 +1,10 @@
+﻿@model DomainObjects.ViewModels.ReservationVehicleViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Model.FormAction = "UpdateReservationVehicle";
+    Model.FormController = "Home";
+}
+
+@await Component.InvokeAsync("ReservationVehicleSetup", new { rvvm = Model})

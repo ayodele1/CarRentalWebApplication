@@ -1,10 +1,13 @@
-﻿@model DomainObjects.ViewModels.ReservationViewModel
+﻿@using DomainObjects.ModelServices
+@model DomainObjects.ViewModels.ReservationViewModel
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
     var totalVehicleCost = Model.VehicleSetup.ReservationVehicle.PricePerDay;
     var totalRentalDays = Convert.ToInt32((Model.InitialSetup.ReturnDate - Model.InitialSetup.PickupDate).TotalDays);
+
+    var FormSubmission = new FormSubmissionService { FormAction = "CancelReservation", FormController = "Home" };
 }
 
 <div class="row">
@@ -12,13 +15,14 @@
         <table class="table-responsive">
             <tr>
                 <td><h3>Reservation @string.Concat("R:", Model.ReviewAndContactSetup.ConfirmationNumber)</h3></td>
-                <td><input type="button" class="btn btn-lg" value="Update Reservation" /></td>
-                <td><input type="button" class="btn btn-lg" value="Cancel Reservation" /></td>
+                <td><input type="button" class="btn btn-lg" value="Update Reservation" onclick="location.href='@Url.Action("UpdateReservationInitial", "Home")'" /></td>
+                <td><input type="button" class="btn btn-lg" value="Cancel Reservation" data-toggle="modal" data-target="#yesnoModal" /></td>
             </tr>
         </table>
         <hr />
     </div>
 
+    @await Component.InvokeAsync("YesNoModal", new { fss = FormSubmission });
     <div class="col-md-10  reservationSummary">
         <br />
 

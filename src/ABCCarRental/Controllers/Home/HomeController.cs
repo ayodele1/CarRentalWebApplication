@@ -39,7 +39,7 @@ namespace ABCCarRental.Controllers
             if (ModelState.IsValid)
             {
                 var mainReservationModel = new ReservationViewModel { InitialSetup = lsvm };
-                SaveReservationToSession(mainReservationModel, "reservationwizard");
+                SaveObjectToSession(mainReservationModel, "reservationwizard");
                 return RedirectToAction("ReservationVehicleSetup");
             }
 
@@ -58,10 +58,10 @@ namespace ABCCarRental.Controllers
         {
             if (ModelState.IsValid)
             {
-                var reservationViewModel = GetReservationFromSession("reservationwizard");
+                var reservationViewModel = GetReservationViewModelFromSession("reservationwizard");
                 vsvm.ReservationVehicle = _vehicleRepository.GetVehicleById(vsvm.ReservationVehicle.Id);
                 reservationViewModel.VehicleSetup = vsvm;
-                SaveReservationToSession(reservationViewModel, "reservationwizard");
+                SaveObjectToSession(reservationViewModel, "reservationwizard");
                 return RedirectToAction("ReservationReviewSetup");
             }
             return View(vsvm);
@@ -69,16 +69,20 @@ namespace ABCCarRental.Controllers
 
         public IActionResult ReservationReviewSetup()
         {
-            var currModel = GetReservationFromSession("reservationwizard");
-            currModel.ReviewAndContactSetup.TotalCost = CalculateReservationCost(currModel.VehicleSetup.ReservationVehicle.PricePerDay, currModel.InitialSetup.PickupDate,
-                currModel.InitialSetup.ReturnDate, currModel.StatesTax);
+            var currModel = GetReservationViewModelFromSession("reservationwizard");
+            var reviewAndContactSetup = new ReservationContactViewModel
+            {
+                TotalCost = CalculateReservationCost(currModel.VehicleSetup.ReservationVehicle.PricePerDay, currModel.InitialSetup.PickupDate,
+                currModel.InitialSetup.ReturnDate, currModel.StatesTax)
+            };
+            currModel.ReviewAndContactSetup = reviewAndContactSetup;
             return View(currModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> ReservationReviewSetup(ReservationViewModel rvm)
         {
-            var reservationViewModel = GetReservationFromSession("reservationwizard");
+            var reservationViewModel = GetReservationViewModelFromSession("reservationwizard");
             reservationViewModel.ReviewAndContactSetup = rvm.ReviewAndContactSetup;
             string userId = null;
             ApplicationUser currentUser = null;
@@ -126,7 +130,7 @@ namespace ABCCarRental.Controllers
             {
                 var newReservation = new Reservation()
                 {
-                    ConfirmationNumber = reservationViewModel.ReviewAndContactSetup.ConfirmationNumber,
+                    ConfirmationNumber = GetConfirmationNumber(),
                     VehicleId = reservationViewModel.VehicleSetup.ReservationVehicle.Id,
                     PickupDate = reservationViewModel.InitialSetup.PickupDate,
                     ReturnDate = reservationViewModel.InitialSetup.ReturnDate,
@@ -140,24 +144,24 @@ namespace ABCCarRental.Controllers
                     ModelState.AddModelError(string.Empty, "Reservation Could not be Added");
                     return View(rvm);
                 }
+                reservationViewModel.CurrentUserId = currentUser.Id;
+                reservationViewModel.ConfirmationNumber = newReservation.ConfirmationNumber;
+                SaveObjectToSession(reservationViewModel, "reservationwizard");
+                //Send Email to User
             }
-            reservationViewModel.CurrentUserId = currentUser.Id;
-            SaveReservationToSession(reservationViewModel, "reservationwizard");
             return RedirectToAction("ReservationComplete");
-            //Send Email to User
         }
 
         public IActionResult ReservationComplete()
         {
-            var currReservationViewModel = GetReservationFromSession("reservationwizard");
-            currReservationViewModel.ReviewAndContactSetup.ConfirmationNumber = GetConfirmationNumber();
+            var currReservationViewModel = GetReservationViewModelFromSession("reservationwizard");
             return View(currReservationViewModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> ReservationComplete(ReservationViewModel rvm)
         {
-            var reservationViewModel = GetReservationFromSession("reservationwizard");
+            var reservationViewModel = GetReservationViewModelFromSession("reservationwizard");
             if (ModelState.IsValid)
             {
                 try
@@ -214,7 +218,7 @@ namespace ABCCarRental.Controllers
             {
                 PickupDate = reservation.PickupDate,
                 ReturnDate = reservation.ReturnDate,
-                StoreLocation = reservation.StoreLocation
+                StoreLocation = reservation.StoreLocation,             
             };
 
             ReservationContactViewModel rcvm = new ReservationContactViewModel
@@ -222,8 +226,7 @@ namespace ABCCarRental.Controllers
                 Email = reservationOwner.Email,
                 FirstName = reservationOwner.FirstName,
                 LastName = reservationOwner.LastName,
-                PhoneNumber = reservationOwner.PhoneNumber,
-                ConfirmationNumber = reservation.ConfirmationNumber               
+                PhoneNumber = reservationOwner.PhoneNumber,              
             };
             ReservationVehicleViewModel rvvm = new ReservationVehicleViewModel
             {
@@ -236,8 +239,108 @@ namespace ABCCarRental.Controllers
                 VehicleSetup = rvvm,
                 ReviewAndContactSetup = rcvm,
                 CurrentUserId = reservation.ApplicationUserId,
+                ConfirmationNumber = reservation.ConfirmationNumber
             };
-            SaveReservationToSession(rvm, "updatecancelwizard");
+            SaveObjectToSession(rvm, "updatewizard");
+            SaveObjectToSession(reservation, "updatecancelwizard");
+            return View(rvm);
+        }
+
+        public IActionResult CancelReservation()
+        {
+            var reservationToCancel = GetReservationFromSession("updatecancelwizard");
+            if (reservationToCancel != null)
+            {
+                try
+                {
+                    if (!_reservationRepository.DeleteReservation(reservationToCancel))
+                    {
+                        throw new Exception();
+                    }
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError(string.Empty, "Reservation Could not be deleted");
+                    return RedirectToAction("UpdateCancelReservation", reservationToCancel);
+                }
+            }
+            return RedirectToAction("CancelReservationComplete", reservationToCancel);
+        }
+
+        public IActionResult CancelReservationComplete(Reservation r)
+        {
+            ViewBag.ReservationConfirmationNumber = r.ConfirmationNumber;
+            return View();
+        }
+
+        public IActionResult UpdateReservationInitial()
+        {
+            var rvmToUpdate = GetReservationViewModelFromSession("updatewizard");
+            return View(rvmToUpdate.InitialSetup);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateReservationInitial(ReservationLocationViewModel rlvm)
+        {
+            if (ModelState.IsValid)
+            {
+                var rvmToUpdate = GetReservationViewModelFromSession("updatewizard");
+                rvmToUpdate.InitialSetup = rlvm;
+                SaveObjectToSession(rvmToUpdate, "updatewizard");
+                return RedirectToAction("UpdateReservationVehicle");
+            }
+
+            return View(rlvm);
+        }
+
+        public IActionResult UpdateReservationVehicle()
+        {
+            var availableVehicles = _vehicleRepository.GetAllAvailableVehicles();
+            var rvmToUpdate = GetReservationViewModelFromSession("updatewizard");
+            return View(rvmToUpdate.VehicleSetup);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateReservationVehicle(ReservationVehicleViewModel rvvm)
+        {
+            if (ModelState.IsValid)
+            {
+                var rvmToUpdate = GetReservationViewModelFromSession("updatewizard");
+                rvvm.ReservationVehicle = _vehicleRepository.GetVehicleById(rvvm.ReservationVehicle.Id);
+                rvmToUpdate.VehicleSetup = rvvm;
+                SaveObjectToSession(rvmToUpdate, "updatewizard");
+                return RedirectToAction("UpdateReservationReview");
+            }
+            return View(rvvm);
+        }
+
+        public IActionResult UpdateReservationReview()
+        {
+            var rvmToUpdate = GetReservationViewModelFromSession("updatewizard");
+            rvmToUpdate.ReviewAndContactSetup.TotalCost = CalculateReservationCost(rvmToUpdate.VehicleSetup.ReservationVehicle.PricePerDay, rvmToUpdate.InitialSetup.PickupDate,
+                rvmToUpdate.InitialSetup.ReturnDate, rvmToUpdate.StatesTax);
+
+            return View(rvmToUpdate);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateReservation(ReservationViewModel rvm)
+        {
+            var rvmToUpdate = GetReservationViewModelFromSession("updatewizard");
+            rvmToUpdate.ReviewAndContactSetup = rvm.ReviewAndContactSetup;
+            if (rvmToUpdate.IsDirty())
+            {
+                var reservationToUpdate = _reservationRepository.FindReservationByConfirmationNumber(rvmToUpdate.ConfirmationNumber);
+                if (!_reservationRepository.UpdateReservation(reservationToUpdate))
+                {
+                    ModelState.AddModelError(string.Empty, "Error Occured while updating Database");
+                }
+            }
+            return RedirectToAction("UpdateReservationComplete", rvmToUpdate);
+        }
+
+        public IActionResult UpdateReservationComplete(ReservationViewModel rvm)
+        {
             return View(rvm);
         }
 
@@ -260,13 +363,19 @@ namespace ABCCarRental.Controllers
             return View();
         }
 
-        private ReservationViewModel GetReservationFromSession(string sessionKey)
+        private ReservationViewModel GetReservationViewModelFromSession(string sessionKey)
         {
             var sessionString = HttpContext.Session.GetString(sessionKey);
             return JsonConvert.DeserializeObject<ReservationViewModel>(sessionString);
         }
 
-        private void SaveReservationToSession(ReservationViewModel rvm, string sessionKey)
+        private Reservation GetReservationFromSession(string sessionKey)
+        {
+            var sessionString = HttpContext.Session.GetString(sessionKey);
+            return JsonConvert.DeserializeObject<Reservation>(sessionString);
+        }
+
+        private void SaveObjectToSession(object rvm, string sessionKey)
         {
             HttpContext.Session.SetString(sessionKey, JsonConvert.SerializeObject(rvm, Formatting.Indented, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
         }

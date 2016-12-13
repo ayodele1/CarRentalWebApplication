@@ -41,9 +41,24 @@ namespace DataAccess
             return false;
         }
 
+        public bool UpdateReservation(Reservation reservationToUpdate)
+        {
+            _context.Reservations.Attach(reservationToUpdate);
+            _context.Entry(reservationToUpdate).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+            return true;
+        }
+
         public Reservation FindReservationByUser(long confirmationNumber, ApplicationUser user)
         {
             return _context.Reservations.Where(x => x.ConfirmationNumber == confirmationNumber && string.Compare(x.ApplicationUserId, user.Id) == 0).FirstOrDefault();
+        }
+
+        public bool DeleteReservation(Reservation reservationToDelete)
+        {
+            _context.Reservations.Remove(reservationToDelete);
+            var isdeleted = _context.SaveChanges();
+            return true;
         }
 
     }

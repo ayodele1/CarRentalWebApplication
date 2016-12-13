@@ -1,0 +1,10 @@
+﻿@model DomainObjects.ViewModels.ReservationViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Model.ReviewAndContactSetup.FormAction = "UpdateReservation";
+    Model.ReviewAndContactSetup.FormController = "Home";
+}
+
+@await Component.InvokeAsync("ReservationContactSetup", new { rvm = Model })

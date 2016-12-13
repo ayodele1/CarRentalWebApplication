@@ -14,7 +14,7 @@
 <h3>Review Your Reservation</h3>
 
 <div class="row">
-    <form asp-controller="Home" asp-action="ReservationReviewSetup" method="post" role="form" id="reservationContactForm">
+    <form asp-controller=@(Model.ReviewAndContactSetup.FormController) asp-action=@(Model.ReviewAndContactSetup.FormAction) method="post" role="form" id="reservationContactForm">
         <div class="col-md-5  reservationSummary">
             <br />
             <h4>RESERVATION SUMMARY</h4>

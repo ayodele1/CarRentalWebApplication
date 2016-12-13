@@ -4,6 +4,14 @@
 *@
 @{
     var a = Model;
+
+    var _storeLocations = new List<string>
+        {
+            "987 Johnson Str, Pawtucket RI",
+            "1234 Bing Street, Boston US",
+            "1111 Pawtucket Ave, Pawtucket RI",
+            "2958 Gold Street, AttleBoro, MA"
+        };
 }
 
 
@@ -19,10 +27,8 @@
                 </div>
                 <label class="col-lg-3 control-label">OUR LOCATION</label>
                 <div class="col-lg-3">
-                    <select class="form-control storeLocation" id="" asp-for="StoreLocation">
+                    <select class="form-control storeLocation" id="" asp-for="StoreLocation" asp-items="@(new SelectList(_storeLocations))">
                         <option selected="selected" disabled="disabled">Select Rental Store Location</option>
-                        <option>987 Johnson Str, Pawtucket RI</option>
-                        <option>1234 Bing Street, Boston US</option>
                     </select>
                 </div>
             </div>

@@ -61,3 +61,6 @@ fieldset{
 .login-form{
     background-color:#eee;
 }
+#selectedthumbnail{
+    border:3px solid green;
+}
