@@ -349,13 +349,21 @@ namespace ABCCarRental.Controllers
         public IActionResult CarInventory(VehicleType filterId)
         {
             var filteredVehicles = _vehicleRepository.GetVehicleByFilter(filterId);            
-            var vlvm = new VehicleListViewModel { Vehicles = filteredVehicles, SelectedFilter = filterId, VehicleFilters = new SelectList(GetVehicleFilters(), "Id", "FilterName") };
+            var vlvm = new VehicleListViewModel { Vehicles = filteredVehicles, SelectedFilter = filterId, VehicleFilters = GetVehicleFilters() };
             return View(vlvm);
         }
 
-        private IEnumerable<VehicleFilter> GetVehicleFilters()
+        [HttpPost]
+        public IActionResult CarInventory(VehicleListViewModel vlvm)
+        {            
+            vlvm.Vehicles = _vehicleRepository.GetVehicleByFilter(vlvm.SelectedFilter);
+            vlvm.VehicleFilters = GetVehicleFilters();
+            return View(vlvm);
+        }
+
+        private SelectList GetVehicleFilters()
         {
-            return new List<VehicleFilter>()
+            var filters = new List<VehicleFilter>()
             {
                 new VehicleFilter {Id=4, FilterName = "All" },
                 new VehicleFilter {Id=0, FilterName="Car"},
@@ -363,6 +371,7 @@ namespace ABCCarRental.Controllers
                 new VehicleFilter {Id=2, FilterName="Truck" },
                 new VehicleFilter {Id=3, FilterName="Luxury" }               
             };
+            return new SelectList(filters, "Id", "FilterName");
         }
 
         public IActionResult About()

@@ -6,6 +6,13 @@
 });
 
 
-$('#uservehicle').on('click', function () {
-    $(this).closest('.thumbnail').addClass('selectedVehicle');
-});
+//$('#uservehicle').on('click', function () {
+//    $(this).closest('.thumbnail').addClass('selectedVehicle');
+//});
+
+$('#carInventoryFilter').on('change', function (event) {
+    console.log("supping");
+    var form = $(event.target).parents('form');
+
+    form.submit();
+})
