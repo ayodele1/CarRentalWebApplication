@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http.Extensions;
+@using DomainObjects;
 @using Microsoft.AspNetCore.Http;  
 @{ 
     var baseUrl = Context.Request.GetDisplayUrl();
@@ -55,8 +56,9 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">CAR INVENTORY</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">CARS</a></li>
-                            <li><a href="#">SUVS</a></li>
+                            <li><a asp-controller="Home" asp-action="CarInventory" asp-route-filterId="@(VehicleType.All)">ALL</a></li>
+                            <li><a asp-controller="Home" asp-action="CarInventory" asp-route-filterId=@(VehicleType.Car)>CARS</a></li>
+                            <li><a asp-controller="Home" asp-action="CarInventory" asp-route-filterId="@(VehicleType.Suv)">SUVS</a></li>
                             <li><a href="#">TRUCKS</a></li>
                             <li><a href="#">LUXURY/EXOTIC CARS</a></li>
                             @*<li class="divider"></li>*@

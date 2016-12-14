@@ -1,0 +1,36 @@
+﻿@model DomainObjects.ViewModels.VehicleListViewModel
+@*etup images of different sizes
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="row">
+    <form asp-controller="Home" asp-action="CarInventory" role="form">
+        <div class="col-md-5">
+            <h4>Car Inventory</h4>
+        </div>
+
+        <div class="form-group pull-right">
+            <select asp-for="SelectedFilter" asp-items="@Model.VehicleFilters" id="carInventoryFilter" class="form-control"></select>
+        </div>
+    </form>
+</div>
+<br />
+<div class="row">
+        @foreach (var vehicle in Model.Vehicles)
+        {
+                <div class="col-xs-3 form-group">
+                    <div class="thumbnail" style="border:none;">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        <img src="~/images/@(vehicle.ImageName)" style="min-height:170px;height:170px;" />
+                        <hr />
+                        <div class="caption">
+                            <h5><i>@vehicle.Name</i></h5>
+                            <p><i><b>Price Per Day:</b></i> @vehicle.PricePerDay</p>
+                        </div>
+                    </div>
+                </div>
+        }
+</div>
+

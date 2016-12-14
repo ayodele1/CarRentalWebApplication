@@ -11,7 +11,8 @@ namespace DomainObjects
         Car,
         Suv,
         Truck,
-        Luxury
+        Luxury,
+        All
     }
 
 

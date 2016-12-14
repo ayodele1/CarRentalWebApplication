@@ -9,6 +9,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ABCCarRental.Controllers
 {
@@ -342,6 +344,25 @@ namespace ABCCarRental.Controllers
         public IActionResult UpdateReservationComplete(ReservationViewModel rvm)
         {
             return View(rvm);
+        }
+
+        public IActionResult CarInventory(VehicleType filterId)
+        {
+            var filteredVehicles = _vehicleRepository.GetVehicleByFilter(filterId);            
+            var vlvm = new VehicleListViewModel { Vehicles = filteredVehicles, SelectedFilter = filterId, VehicleFilters = new SelectList(GetVehicleFilters(), "Id", "FilterName") };
+            return View(vlvm);
+        }
+
+        private IEnumerable<VehicleFilter> GetVehicleFilters()
+        {
+            return new List<VehicleFilter>()
+            {
+                new VehicleFilter {Id=4, FilterName = "All" },
+                new VehicleFilter {Id=0, FilterName="Car"},
+                new VehicleFilter {Id=1, FilterName="SUV" },
+                new VehicleFilter {Id=2, FilterName="Truck" },
+                new VehicleFilter {Id=3, FilterName="Luxury" }               
+            };
         }
 
         public IActionResult About()

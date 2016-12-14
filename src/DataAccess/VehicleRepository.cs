@@ -30,6 +30,15 @@ namespace DataAccess
             return _context.Vehicles.Where(x => x.Id == id).FirstOrDefault();
         }
 
+        public IEnumerable<Vehicle> GetVehicleByFilter(VehicleType vt)
+        {
+            if (vt == VehicleType.All)
+            {
+                return GetAll();
+            }
+            return _context.Vehicles.Where(x => x.ModelType == vt);
+        }
+
         public void AddNewVehicle(Vehicle newVehicle)
         {
             _context.Vehicles.Add(newVehicle);
