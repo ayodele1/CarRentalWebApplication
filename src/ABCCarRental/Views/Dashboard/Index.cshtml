@@ -1,0 +1,17 @@
+﻿@model DomainObjects.ViewModels.ReservationListViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_dashboardLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xs-4" style="border:hidden">
+        <a class="btn btn-toolbar btn-lg"><span class="glyphicon glyphicon-plus" style="font-size:2.5em;"></span>Add A New Reservation</a>        
+    </div>
+</div>
+<br />
+
+@await Component.InvokeAsync("UserReservations", new { rlvm = Model })
+

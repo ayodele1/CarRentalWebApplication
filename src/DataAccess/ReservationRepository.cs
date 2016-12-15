@@ -61,5 +61,10 @@ namespace DataAccess
             return true;
         }
 
+        public IEnumerable<Reservation> GetReservationsForUser(string userId)
+        {
+            return _context.Reservations.Where(x => x.ApplicationUserId == userId);
+        }
+
     }
 }

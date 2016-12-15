@@ -27,7 +27,7 @@ namespace ABCCarRental.Controllers.Auth
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Reservations");
+                return RedirectToAction("Index", "Dashboard");
             }
 
             return View();
@@ -44,7 +44,7 @@ namespace ABCCarRental.Controllers.Auth
                 {
                     if (string.IsNullOrWhiteSpace(returnUrl))
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Dashboard");
                     }
                     else
                     {

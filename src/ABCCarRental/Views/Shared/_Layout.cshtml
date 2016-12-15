@@ -59,8 +59,8 @@
                             <li><a asp-controller="Home" asp-action="CarInventory" asp-route-filterId="@(VehicleType.All)">ALL</a></li>
                             <li><a asp-controller="Home" asp-action="CarInventory" asp-route-filterId=@(VehicleType.Car)>CARS</a></li>
                             <li><a asp-controller="Home" asp-action="CarInventory" asp-route-filterId="@(VehicleType.Suv)">SUVS</a></li>
-                            <li><a href="#">TRUCKS</a></li>
-                            <li><a href="#">LUXURY/EXOTIC CARS</a></li>
+                            <li><a asp-controller="Home" asp-action="CarInventory" asp-route-filterId="@(VehicleType.Truck)">TRUCKS</a></li>
+                            <li><a asp-controller="Home" asp-action="CarInventory" asp-route-filterId="@(VehicleType.Luxury)">LUXURY/EXOTIC CARS</a></li>
                             @*<li class="divider"></li>*@
                         </ul>
                     </li>
