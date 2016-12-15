@@ -78,7 +78,7 @@ namespace ABCCarRental.Controllers.Auth
                     {
                         await _userManager.AddToRoleAsync(newUser, "customer");
                         await _signInManager.SignInAsync(newUser, false);
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Dashboard");
                     }
                 }
             }

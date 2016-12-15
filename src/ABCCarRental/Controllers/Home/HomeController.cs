@@ -228,7 +228,8 @@ namespace ABCCarRental.Controllers
                 Email = reservationOwner.Email,
                 FirstName = reservationOwner.FirstName,
                 LastName = reservationOwner.LastName,
-                PhoneNumber = reservationOwner.PhoneNumber,              
+                PhoneNumber = reservationOwner.PhoneNumber,
+                TotalCost = reservation.TotalCost              
             };
             ReservationVehicleViewModel rvvm = new ReservationVehicleViewModel
             {
@@ -241,7 +242,7 @@ namespace ABCCarRental.Controllers
                 VehicleSetup = rvvm,
                 ReviewAndContactSetup = rcvm,
                 CurrentUserId = reservation.ApplicationUserId,
-                ConfirmationNumber = reservation.ConfirmationNumber
+                ConfirmationNumber = reservation.ConfirmationNumber                
             };
             SaveObjectToSession(rvm, "updatewizard");
             SaveObjectToSession(reservation, "updatecancelwizard");

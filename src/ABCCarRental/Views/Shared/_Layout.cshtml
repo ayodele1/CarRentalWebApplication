@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http.Extensions;
 @using DomainObjects;
-@using Microsoft.AspNetCore.Http;  
-@{ 
+@using Microsoft.AspNetCore.Http;
+@{
     var baseUrl = Context.Request.GetDisplayUrl();
 }
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ABCCarRental</title>
+    <title>@ViewData["Title"] - MYCarRental</title>
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -18,13 +18,13 @@
         <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/datepicker.css" />
         <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/all.css" />
         <link rel="stylesheet" href="~/css/Custom.css" />
-        
+
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/lib/bootswatch/paper/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/bootswatch/flatly/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/datepicker.css" />
         <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/all.css" />
@@ -32,7 +32,7 @@
     </environment>
 </head>
 <body>
-    <div class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top" id="homepageLinks">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -41,7 +41,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">ABCCarRental</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">MyCarRental</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -49,7 +49,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">RENT A CAR</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href=@string.Concat(baseUrl,"#reservationFormDiv")>MAKE A RESERVATION</a></li>
+                            <li><a href="/Home/#reservationFormDiv">MAKE A RESERVATION</a></li>
                             <li><a asp-controller="Home" asp-action="SearchReservation">UPDATE/CANCEL RESERVATION</a></li>
                         </ul>
                     </li>
@@ -64,13 +64,10 @@
                             @*<li class="divider"></li>*@
                         </ul>
                     </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ALL OUR LOCATIONS</a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">US LOCATIONS</a></li>
-                        </ul>
-                    </li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">ABOUT US</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-controller="Dashboard" asp-action="Index">MY DASHBOARD</a></li>
+                    }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (User.Identity.IsAuthenticated)
@@ -114,14 +111,14 @@
         <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
-        </script>
+        </script>             
         <script src="~/js/site.min.js" asp-append-version="true"></script>
-        <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.js"></script>       
         <script src="~/js/Custom.js"></script>
         <script src="~/js/GoogleService.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChWlnXt3ZDM74QSanoxvJoqolkw1R0RXw&libraries=places&callback=initAutocomplete"
-               async defer ></script>
-        
+                async defer></script>
+        <script src="~/js/jquery.flip.min.js"></script> 
     </environment>
 
     @RenderSection("scripts", required: false)

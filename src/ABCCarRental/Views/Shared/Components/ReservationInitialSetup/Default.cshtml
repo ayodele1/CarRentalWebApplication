@@ -16,31 +16,42 @@
 
 
 <div class="row" id="reservationFormDiv">
+    <h3 class="pageHeading">START YOUR RESERVATION NOW</h3>
     <form asp-controller=@(Model.FormController) asp-action=@(Model.FormAction) asp-route-returnurl="@ViewBag.ReturnUrl" method="post" class="form-horizontal" id="reservationForm" role="form">
         <fieldset>
-            <legend>MAKE A RESERVATION NOW</legend>
+            @*<legend style="color:brown">&nbsp; START YOUR RESERVATION NOW</legend>*@
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group form-group-lg">
-                <label class="col-lg-3 control-label">YOUR LOCATION (CITY OR ZIP)</label>
-                <div class="col-lg-3">
+                <label class="col-lg-4 control-label">YOUR LOCATION (CITY OR ZIP)</label>
+                <div class="col-lg-6 col-lg-offset-1">
                     <input type="text" class="form-control input-lg search-field" id="userLocation" onfocus="geolocate();" placeholder="Enter a Location">
                 </div>
-                <label class="col-lg-3 control-label">OUR LOCATION</label>
-                <div class="col-lg-3">
-                    <select class="form-control storeLocation" id="" asp-for="StoreLocation" asp-items="@(new SelectList(_storeLocations))">
+            </div>
+            <div class="form-group form-group-lg">
+                <label class="col-lg-4 control-label">OUR LOCATION</label>
+                <div class="col-lg-6 col-lg-offset-1">
+                    <select style="width:100%" class="form-control storeLocation" id="" asp-for="StoreLocation" asp-items="@(new SelectList(_storeLocations))">
                         <option selected="selected" disabled="disabled">Select Rental Store Location</option>
                     </select>
                 </div>
             </div>
             <div class="form-group form-group-lg">
-                <label class="col-lg-3 control-label">PICKUP DATE</label>
-                <input type="text" asp-for="PickupDate" class="form-control input-lg pickupdate" readonly />
-
-                <label class="col-lg-3 control-label">RETURN DATE</label>
-                <input type="text" asp-for="ReturnDate" class="form-control input-lg returndate" readonly />
-                <div class="col-lg-3 pull-right">
-                    <input type="submit" value="CONTINUE" class="btn btn-primary btn-lg" />
+                <label class="col-lg-4 control-label">PICKUP DATE</label>
+                <div class="col-lg-6 col-lg-offset-1">
+                    <input type="text" asp-for="PickupDate" class="form-control input-lg pickupdate" readonly />
                 </div>
+            </div>
+            <div class="form-group form-group-lg">
+                <label class="col-lg-4 control-label">RETURN DATE</label>
+                <div class="col-lg-6 col-lg-offset-1">
+                    <input type="text" asp-for="ReturnDate" class="form-control input-lg returndate" readonly />
+                </div>
+            </div>
+            <div class="col-lg-3 pull-right">
+                <button type="submit" value="VEHICLE SETUP" class="btn btn-primary btn-lg">
+                    VEHICLE SETUP
+                    <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
             </div>
         </fieldset>
     </form>

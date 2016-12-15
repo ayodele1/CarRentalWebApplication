@@ -21,13 +21,15 @@
                <input type="hidden" asp-for="ReservationVehicle.Id" value=@(vehicle.Id) />
 
                 <div class="thumbnail">
-                    <img src="~/images/@(vehicle.ImageName)" />
+                    <span class="numeric"> @string.Concat("$", vehicle.PricePerDay) / Day</span>
+                    <img src="~/images/@(vehicle.ImageName)" style="min-height:170px;height:140px;" />
                     <hr />
                     <div class="caption">
-                        <h5><i>@vehicle.Name</i></h5>
-                        <p><i><b>Price Per Day:</b></i> @pricePerDay</p>
+                        <h4>
+                            <i>@vehicle.Name</i>&nbsp;&nbsp;&nbsp;&nbsp;
+                        </h4>
                         <p>
-                            <input type="button" value="More Details" class="btn btn-default" />
+                            @*<input type="button" value="More Details" class="btn btn-default" />*@
                             <input type="submit" value="SELECT" class="btn btn-default" id="uservehicle" onclick="VehicleSelected()" />
                         </p>
                     </div>

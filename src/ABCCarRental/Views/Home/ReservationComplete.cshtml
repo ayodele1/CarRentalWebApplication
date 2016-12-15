@@ -10,6 +10,9 @@
     <div class="col-md-5">
         <h4>Thank You</h4>
         <h5>Your Confirmation Number is: <span>@Model.ConfirmationNumber</span></h5>
+        <br /><br />
+        <a href="/Home/#reservationFormDiv" class="btn btn-default btn-sm">START ANOTHER RESERVATION</a>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-default btn-sm">BACK TO HOMEPAGE</a>
     </div>
     @if (!User.Identity.IsAuthenticated)
     {
@@ -27,5 +30,3 @@
         </div>
     }
 </div>
-
-}

@@ -1,16 +1,16 @@
-﻿
-
-.pickupdate {
-    background-color: #eee !important;
+﻿fieldset{
+    background-color:#fcfdff;
+}
+.pageHeading{
+    color:brown;
+}
+.numeric{
+    font-size:20px;
+    color:#33b20c;
 }
 
-.returndate {
-    background-color: #eee !important;
-}
 
-.storeLocation {
-    background-color: #eee !important;
-}
+
 
 .selectedVehicle {
     border: 2px solid green;
@@ -41,9 +41,6 @@ hr {
 table{
     width: 100%;
 }
-.numeric{
-    color:#10bc13;
-}
 #rentalVehicle{
     background-color:#eee;
 }
@@ -55,12 +52,15 @@ fieldset{
     border:1px solid darkcyan;
     padding: 20px;
 }
-#loginform{
-    border:2px solid #eee;
-}
-.login-form{
-    background-color:#eee;
-}
 #selectedthumbnail{
     border:3px solid green;
+}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+
+
+#reservationFormDiv{
+    background-color: white;
 }

@@ -3,35 +3,59 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-   
+    var i = 0;
+
 }
 
 <div class="row">
     <form asp-controller="Home" asp-action="CarInventory" role="form">
         <div class="col-md-5">
-            <h4>Car Inventory</h4>
+            <h3 class="pageHeading">ALL VEHICLES</h3>
         </div>
 
-        <div class="form-group pull-right">
+        <div class="col-md-3 pull-right">
             <select asp-for="SelectedFilter" asp-items="@Model.VehicleFilters" id="carInventoryFilter" class="form-control"></select>
         </div>
     </form>
 </div>
+<hr />
 <br />
 <div class="row">
-        @foreach (var vehicle in Model.Vehicles)
-        {
-                <div class="col-xs-3 form-group">
-                    <div class="thumbnail" style="border:none;">
-                        <span class="glyphicon glyphicon-info-sign"></span>
-                        <img src="~/images/@(vehicle.ImageName)" style="min-height:170px;height:170px;" />
-                        <hr />
-                        <div class="caption">
-                            <h5><i>@vehicle.Name</i></h5>
-                            <p><i><b>Price Per Day:</b></i> @vehicle.PricePerDay</p>
-                        </div>
+    @foreach (var vehicle in Model.Vehicles)
+    {
+        i = i + 1;
+        var carid = string.Concat("card", i);
+            <div class="card form-group col-xs-4" id="@carid">
+                <div class="front thumbnail">
+                    <span class="numeric"> @string.Concat("$", vehicle.PricePerDay) / Day</span>
+                    <img src="~/images/@(vehicle.ImageName)" style="height:170px;" />
+                    <hr />
+                    <div class="caption">
+                        <h4>
+                            <i>@vehicle.Name</i>&nbsp;&nbsp;&nbsp;&nbsp;
+                            @*<a id="" class="vehicleDetail pull-right"><i>Details</i></a>*@
+                        </h4>
+                        <h4>
+                            Make Year : 
+                            <i>@vehicle.MakeYear</i>&nbsp;&nbsp;&nbsp;&nbsp;
+                            @*<a id="" class="vehicleDetail pull-right"><i>Details</i></a>*@
+                        </h4>
+                        <h4>
+                            Model Type :
+                            <i>@vehicle.ModelType</i>&nbsp;&nbsp;&nbsp;&nbsp;
+                            @*<a id="" class="vehicleDetail pull-right"><i>Details</i></a>*@
+                        </h4>
+                        <h4>
+                            Passenger Capacity :
+                            <i>@vehicle.PassengerCapacity</i>&nbsp;&nbsp;&nbsp;&nbsp;
+                            @*<a id="" class="vehicleDetail pull-right"><i>Details</i></a>*@
+                        </h4>
+
                     </div>
                 </div>
-        }
+            </div>
+
+
+    }
 </div>
 

@@ -29,7 +29,7 @@ namespace ABCCarRental.Controllers.DashBoard
         {
             var signedInUserId = _userManager.GetUserId(HttpContext.User);
             var userReservations = _reservationRepository.GetReservationsForUser(signedInUserId);
-            var viewModel = new ReservationListViewModel { Reservations = userReservations };
+            var viewModel = new ReservationListViewModel { Reservations = userReservations, SignedInUserId = signedInUserId };
             return View(viewModel);
         }
     }

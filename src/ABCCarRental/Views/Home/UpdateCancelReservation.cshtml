@@ -14,7 +14,7 @@
     <div class="form-group">
         <table class="table-responsive">
             <tr>
-                <td><h3>Reservation @string.Concat("R:", Model.ReviewAndContactSetup.ConfirmationNumber)</h3></td>
+                <td><h3>Reservation @string.Concat("R:", Model.ConfirmationNumber)</h3></td>
                 <td><input type="button" class="btn btn-lg" value="Update Reservation" onclick="location.href='@Url.Action("UpdateReservationInitial", "Home")'" /></td>
                 <td><input type="button" class="btn btn-lg" value="Cancel Reservation" data-toggle="modal" data-target="#yesnoModal" /></td>
             </tr>

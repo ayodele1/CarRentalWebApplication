@@ -1,29 +1,37 @@
 ﻿@model DomainObjects.ViewModels.SearchReservationViewModel
-    @*
-        For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-    *@
-    @{
-    }
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
 
-    <div class="row">
-        <form role="form" asp-controller="Home" asp-action="SearchReservation" id="searchReservationForm">
+<div class="row">
+    <h3 class="pageHeading">UPDATE / CANCEL RESERVATION</h3>
+    <br />
+    <form role="form" asp-controller="Home" asp-action="SearchReservation" id="searchReservationForm" class="form-horizontal">
+        <fieldset>
             <div asp-validation-summary="ModelOnly" class="text-danger text-lg-center"></div>
-            <div class="form-group">
-                <label>Email</label>
-            </div>
-            <div class="form-group">
-                <input type="email" class="input input-lg" asp-for="Email" style="width:100%" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Confirmation Number</label>
+            <div class="form-group form-group-lg">
+                <label class="col-lg-2 control-label">Email</label>
+                <div class="col-lg-7">
+                    <input type="email" class="input input-lg" asp-for="Email" style="width:100%" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-            <div class="form-group">
-                <input type="text" class="input input-lg" asp-for="ConfirmationNumber" style="width:100%" />
-                <span asp-validation-for="ConfirmationNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="FIND RESERVATION" class="btn btn-lg" />
+            <div class="form-group form-group-lg">
+                <label class="col-lg-2 control-label">Confirmation Number</label>
+                <div class="col-lg-7">
+                    <input type="text" class="input input-lg" asp-for="ConfirmationNumber" style="width:100%" />
+                    <span asp-validation-for="ConfirmationNumber" class="text-danger"></span>
+                </div>
             </div>
-        </form>
-    </div>
+            <br />
+            <div class="col-lg-3 col-lg-offset-2">
+                <button class="btn btn-primary btn-lg">
+                    FIND RESERVATION
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </div>
+        </fieldset>
+    </form>
+</div>

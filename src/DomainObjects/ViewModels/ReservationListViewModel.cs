@@ -8,5 +8,7 @@ namespace DomainObjects.ViewModels
     public class ReservationListViewModel
     {
         public IEnumerable<Reservation> Reservations { get; set; }
+
+        public string SignedInUserId { get; set; }
     }
 }

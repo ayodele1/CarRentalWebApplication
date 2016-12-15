@@ -36,8 +36,9 @@ namespace ABCCarRental
         public void ConfigureServices(IServiceCollection services)
         {             
             // Add framework services.
-            services.AddMvc(config => 
+            services.AddMvc(config =>
             {
+
                 if (_env.IsProduction())
                 {
                     //config.Filters.Add(new RequireHttpsAttribute());
@@ -47,7 +48,10 @@ namespace ABCCarRental
                 //                            {
                 //                                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 //                            }, ArrayPool<char>.Shared));
-            });
+            }).AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            }); ;
 
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
             {

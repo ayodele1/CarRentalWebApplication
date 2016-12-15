@@ -3,22 +3,50 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-}
 
-<div class="row">
-    <div class="col-md-7">
-        <table class="table table-responsive table-striped">
-            <thead>
-            </thead>
-            <tbody>
-                @foreach (var reservation in Model.Reservations)
-            {
-                    <tr class="">
-                        <td>@reservation.ConfirmationNumber</td>
-                        <td><a href="#">View Details</a> | <a href="#" class="btn btn-sm btn-primary">Update</a> | <a href="#" class="btn btn-sm btn-danger">Cancel</a></td>
-                    </tr>
+}
+<div class="row" ng-controller="ReservationController as rc">
+    <div class="col-md-10">
+        <div class="" ng-repeat="reservation in rc.Reservations">
+            @{
+                var totalVehicleCost = 44.00;
+                var totalRentalDays = 3;
+                if (totalRentalDays > 0)
+                {
+                    totalVehicleCost = 44.0 * totalRentalDays;
                 }
-            </tbody>
-        </table>
+                var totalRentalCost = totalVehicleCost + 22;
+            }
+            <div class="well well-lg form-group form-group-lg">
+                <a style="font-size:25px">R:{{reservation.ConfirmationNumber }}</a>
+                <a asp-controller="Home" asp-action="" class="col-sm-offset-5"></a>
+                <a ng-click="rc.toggleDetails(reservation)" class="btn btn-sm btn-default">{{ reservation.showfull ? "Hide":"Show" }} Details</a>&nbsp;&nbsp;
+                <a class="btn btn-sm btn-primary">Update</a>&nbsp;&nbsp;
+                <a style="color:red" class="btn btn-sm btn-dafault">Cancel</a>&nbsp;&nbsp;
+            </div>
+            <table class="table table-responsive table-striped ng-cloak" ng-cloak ng-if="reservation.showfull">
+                <tr class="reservation-summary-table-header" ng-if="reservation.showfull">
+                    <th><h5><b><i>PRICE DETAILS</i></b></h5></th>
+                    <th></th>
+                    <td>Vehicle Price (For @string.Concat(totalRentalDays, " days")):&nbsp;</td>
+                    <td class=""><p><b>@string.Concat("$", 44.0)</b></p></td>
+                    <td>Total Cost:&nbsp;</td>
+                    <td class="numeric"><b>{{reservation.TotalCost}}</b></td>
+                </tr>
+
+                <tr class="reservation-summary-table-header" ng-if="reservation.showfull">
+                    <th><h5><b><i>LOGISTICS</i></b></h5></th>
+                    <th></th>
+
+                    <td>PickUp / Return Location:&nbsp;</td>
+                    <td class=""><p><b>{{reservation.StoreLocation}}</b></p></td>
+
+                    <td>Pickup Date:&nbsp;</td>
+                    <td class=""><p><b>{{reservation.PickupDate | date:'MM-dd-yyyy' }}</b></p></td>
+                    <td>Return Date:&nbsp;</td>
+                    <td class=""><b>{{reservation.ReturnDate | date:'MM-dd-yyyy' }}</b></td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
